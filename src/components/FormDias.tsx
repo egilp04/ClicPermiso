@@ -1,15 +1,53 @@
+import { useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import InputSelect from "./InputSelect";
 
-const Form = () => {
+const getMonthText = (value: number) => {
+  switch (value) {
+    case 1:
+      return "Enero";
+    case 2:
+      return "Febrero";
+    case 3:
+      return "Marzo";
+    case 4:
+      return "Arbil";
+    case 5:
+      return "Mayo";
+    case 6:
+      return "Junio";
+    case 7:
+      return "Julio";
+    case 8:
+      return "Agosto";
+    case 9:
+      return "Septiembre";
+    case 10:
+      return "Octubre";
+    case 11:
+      return "Noviembre";
+    case 12:
+      return "Dicembre";
+  }
+};
+
+const FormDias = () => {
+  const [dia, setDia] = useState({
+    dia: new Date().getDate(),
+    mes: getMonthText(new Date().getMonth() + 1),
+    anio: new Date().getFullYear(),
+  });
   return (
     <>
       <div className="flex flex-row w-full justify-between p-4">
         <div className="flex flex-row gap-4">
           <span className="material-symbols-outlined">calendar_today</span>
           <h1>
-            <strong>Solicitar dia: </strong>
+            <strong>
+              Solicitar dia:{" "}
+              {`${dia.dia} del mes ${dia.mes} del ${dia.anio}`}{" "}
+            </strong>
           </h1>
         </div>
         <div className="flex flex-row gap-4 ">
@@ -20,7 +58,7 @@ const Form = () => {
       <div>
         <form className="grid grid-cols-2 p-4 gap-4">
           <Input
-            tipo="text"
+            tipo="date"
             textoLabel="Dia solicitado"
             icon={
               <span className="material-symbols-outlined">calendar_today</span>
@@ -103,4 +141,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default FormDias;
