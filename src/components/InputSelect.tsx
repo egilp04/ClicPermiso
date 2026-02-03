@@ -1,12 +1,17 @@
-import type { ReactNode } from "react";
+import type { ReactNode, SelectHTMLAttributes } from "react";
 
-export interface InputSelectInterface {
+export interface InputSelectInterface extends SelectHTMLAttributes<HTMLSelectElement> {
   textLabel: string;
   options: string[];
   icon: ReactNode;
 }
 
-const InputSelect = ({ options, textLabel, icon }: InputSelectInterface) => {
+const InputSelect = ({
+  options,
+  textLabel,
+  icon,
+  ...props
+}: InputSelectInterface) => {
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-medium text-gray-700" htmlFor="seleccion">
@@ -17,8 +22,8 @@ const InputSelect = ({ options, textLabel, icon }: InputSelectInterface) => {
           {icon}
         </div>
         <select
-          name="seleccion"
           className="w-full border border-gray-300 rounded-md px-10 py-2 text-sm outline-none"
+          {...props}
         >
           {options.map((option) => (
             <option value={option}>{option}</option>

@@ -1,13 +1,12 @@
-import type { ReactNode } from "react";
+import type { InputHTMLAttributes, ReactNode } from "react";
 
-export interface InputInterface {
+export interface InputInterface extends InputHTMLAttributes<HTMLInputElement> {
   tipo: string;
   textoLabel: string;
-  placeholder?: string;
   icon?: ReactNode;
 }
 
-const Input = ({ tipo, placeholder, textoLabel, icon }: InputInterface) => {
+const Input = ({ tipo, textoLabel, icon, ...props }: InputInterface) => {
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-medium text-gray-700">{textoLabel}</label>
@@ -18,7 +17,7 @@ const Input = ({ tipo, placeholder, textoLabel, icon }: InputInterface) => {
         <input
           type={tipo}
           className="w-full border border-gray-300 rounded-md px-10 py-2 text-sm outline-none"
-          placeholder={placeholder}
+          {...props}
         />
       </div>
     </div>
