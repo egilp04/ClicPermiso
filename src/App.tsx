@@ -1,9 +1,19 @@
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import Diurno from "./components/Diurno";
 
 function App() {
   return (
     <>
-      <Home></Home>
+      <Routes>
+        <Route path="/" element={<Home></Home>}>
+          <Route index element={<Diurno></Diurno>}></Route>
+          <Route path="vespertino"></Route>
+          <Route path="perfil"></Route>
+          <Route path="dias-solicitados"></Route>
+          <Route path="ausencias"></Route>
+        </Route>
+      </Routes>{" "}
     </>
   );
 }
