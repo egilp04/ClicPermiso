@@ -2,12 +2,7 @@ import { useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import InputSelect from "./InputSelect";
-import {
-  getMonthText,
-  validarFecha,
-  validarTelef,
-  valudarEnteros,
-} from "../utils/Utils";
+import { getMonthText } from "../utils/Utils";
 
 const FormDias = () => {
   const [dia, setDia] = useState({
@@ -22,7 +17,7 @@ const FormDias = () => {
   const anio = hoy.getFullYear();
   const [data, setData] = useState({
     fecha: `${anio}-${mes}-${diaActual}`,
-    telefono: "615548710",
+    telefono: "000000000",
     numHoras: 0,
     numDias: 0,
     jornada: "sin seleccionar",
@@ -31,88 +26,58 @@ const FormDias = () => {
   });
 
   const [errores, setError] = useState({
-    fecha: false,
-    telefono: false,
-    numDias: false,
-    numHoras: false,
+    fecha: true,
+    telefono: true,
+    jornada: true,
+    turno: true,
+    numDias: true,
+    numHoras: true,
   });
 
   const hadleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const hayErrores = Object.values(errores).some((error) => error === true);
-    let nuevaData = [];
     if (!hayErrores) {
-      const prevData = localStorage.getItem("formDias");
-      if (prevData) {
-        const parseData = JSON.parse(prevData);
-        nuevaData = [...parseData, data];
-        localStorage.setItem("formDias", JSON.stringify(nuevaData));
-      } else {
-        nuevaData = [data];
-        localStorage.setItem("formDias", JSON.stringify(nuevaData));
-      }
-      alert("Solicitud guardada correctamente");
+      alert(
+        `Solicitud guardada correctamente. Datos: \nFecha:${data.fecha} \nTelefono ${data.telefono} \nNumero de horas: ${data.numHoras} \nNumero de dias: ${data.numDias} \nJornada: ${data.jornada} \nTurno ${data.turno} `,
+      );
     } else {
-      alert("Por favor, corrige los errores antes de enviar.");
+      alert(
+        "Por favor, algunos campos tiene errores, corrige los errores antes de enviar.",
+      );
     }
   };
 
-  const handleChange = (
+  const actualizarInfo = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    switch (name) {
-      case "fecha":
-        if (!validarFecha(value)) {
-          setError((prev) => ({ ...prev, [name]: true }));
-          const nuevaFecha = {
-            dia: new Date().getDate(),
-            mes: getMonthText(new Date().getMonth() + 1),
-            anio: new Date().getFullYear(),
-          };
-          setDia(nuevaFecha);
-        } else {
-          setError((prev) => ({ ...prev, [name]: false }));
-          const [anio, mes, dia] = value.split("-");
-          console.log(dia, mes, anio);
-          const nuevaFecha = {
-            dia: parseInt(dia),
-            mes: getMonthText(parseInt(mes)),
-            anio: parseInt(anio),
-          };
-          setDia(nuevaFecha);
-        }
-        break;
-      case "telefono":
-        if (!validarTelef(value))
-          setError((prev) => ({ ...prev, [name]: true }));
-        else setError((prev) => ({ ...prev, [name]: false }));
-        break;
-      case "numHoras":
-        if (!valudarEnteros(value))
-          setError((prev) => ({ ...prev, [name]: true }));
-        else {
-          setError((prev) => ({ ...prev, [name]: false }));
-        }
-        break;
-      case "numDias":
-        if (!valudarEnteros(value))
-          setError((prev) => ({ ...prev, [name]: true }));
-        else {
-          setError((prev) => ({ ...prev, [name]: false }));
-        }
-        break;
-    }
     setData((prev) => {
       const nuevaData = {
         ...prev,
-        [name]: value,
+        [e.target.name]: e.target.value,
       };
       return nuevaData;
     });
+
+    if (e.target.name == "fecha") {
+      const [anio, mes, dia] = e.target.value.split("-");
+      setDia({
+        dia: parseInt(dia),
+        mes: getMonthText(parseInt(mes)),
+        anio: parseInt(anio),
+      });
+    }
   };
 
+  const tieneError = (nombre: string, error: boolean) => {
+    console.log(nombre);
+    setError((prev) => {
+      return {
+        ...prev,
+        [nombre]: error,
+      };
+    });
+  };
   return (
     <>
       <div className="flex flex-row w-full justify-between p-4">
@@ -120,8 +85,8 @@ const FormDias = () => {
           <span className="material-symbols-outlined">calendar_today</span>
           <h1>
             <strong>
-              Solicitar dia:{" "}
-              {`${dia.dia} del mes ${dia.mes} del ${dia.anio}`}{" "}
+              Solicitar dia:
+              {`${dia.dia} del mes ${dia.mes} del ${dia.anio}`}
             </strong>
           </h1>
         </div>
@@ -139,27 +104,40 @@ const FormDias = () => {
             icon={
               <span className="material-symbols-outlined">calendar_today</span>
             }
-            onChange={handleChange}
+            onChange={actualizarInfo}
+            regex={/^\d{4}-\d{2}-\d{2}$/}
+            tieneError={tieneError}
+            mensajeError="Día válido, por favor"
           ></Input>
           <Input
             name="telefono"
             tipo="text"
             textoLabel="Número de Teléfono"
             icon={<span className="material-symbols-outlined">call</span>}
-            onChange={handleChange}
+            onChange={actualizarInfo}
+            regex={/^[6-9][0-9]{8}$/}
+            tieneError={tieneError}
+            mensajeError="Número de teléfono de 9 dígitos, que empiecen or 6,7,8,9"
           ></Input>
           <InputSelect
             textLabel="Jornada"
+            name="jornada"
             options={["Sin seleccionar", "Parcial", "Completa"]}
             icon={<span className="material-symbols-outlined">history_2</span>}
-            onChange={handleChange}
+            onChange={actualizarInfo}
+            regex={/^(Parcial|Completa)$/}
+            mensajeError="Seleccione un valor"
+            tieneError={tieneError}
           ></InputSelect>
           <InputSelect
             textLabel="Turno solicitado"
             options={["Sin seleccionar", "Diurno", "Vespertino"]}
             icon={<span className="material-symbols-outlined">sunny</span>}
             name="turno"
-            onChange={handleChange}
+            onChange={actualizarInfo}
+            regex={/^(Diurno|Vespertino)$/}
+            mensajeError="Seleccione un valor"
+            tieneError={tieneError}
           ></InputSelect>
           <Input
             name="numHoras"
@@ -168,21 +146,27 @@ const FormDias = () => {
             icon={
               <span className="material-symbols-outlined">hourglass_empty</span>
             }
-            onChange={handleChange}
+            onChange={actualizarInfo}
+            regex={/^[1-8]{1}$/}
+            tieneError={tieneError}
+            mensajeError="De 1 a 8 dias"
           ></Input>
           <Input
             name="numDias"
             tipo="number"
             textoLabel="Núm de días de permisos solicitados en el centro"
             icon={<span className="material-symbols-outlined">table_rows</span>}
-            onChange={handleChange}
+            onChange={actualizarInfo}
+            regex={/^[1-8]{1}$/}
+            tieneError={tieneError}
+            mensajeError="De 1 a 8 dias"
           ></Input>
           <div className="col-span-2 flex flex-row gap-2">
             <input
               type="checkbox"
               name="noRetribuido"
               id="check1"
-              onChange={handleChange}
+              onChange={actualizarInfo}
             ></input>
             <label htmlFor="check1">
               Estoy solicitando un día de permiso no retribuido

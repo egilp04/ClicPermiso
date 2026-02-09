@@ -54,8 +54,3 @@ export const validarTelef = (value: string) => {
   console.log(regexTel.test(value.trim()));
   return regexTel.test(value.trim());
 };
-
-export const valudarEnteros = (value: string) => {
-  const valor = parseInt(value);
-  return !isNaN(valor) && valor > 0 && valor < 8;
-};
