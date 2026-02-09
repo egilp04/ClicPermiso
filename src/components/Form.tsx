@@ -21,12 +21,12 @@ const Form = () => {
           <Input
             tipo="text"
             textoLabel="Nombre"
-            icon={<span className="material-symbols-outlined">user</span>}
+            icon={<span className="material-symbols-outlined">person</span>}
           ></Input>
           <Input
             tipo="text"
             textoLabel="Apellidos"
-            icon={<span className="material-symbols-outlined">user</span>}
+            icon={<span className="material-symbols-outlined">person</span>}
           ></Input>
           <Input
             tipo="text"
@@ -36,17 +36,23 @@ const Form = () => {
           <Input
             tipo="text"
             textoLabel="DNI"
-            icon={<span className="material-symbols-outlined">email</span>}
+            icon={
+              <span className="material-symbols-outlined">credit_card</span>
+            }
           ></Input>
           <InputSelect
             options={["soltero", "Casado", "Otros"]}
             textLabel="Relacion juridica"
-            icon={<span className="material-symbols-outlined">email</span>}
+            icon={
+              <span className="material-symbols-outlined">card_travel</span>
+            }
           ></InputSelect>
           <Input
             tipo="text"
             textoLabel="Años de servicio"
-            icon={<span className="material-symbols-outlined">email</span>}
+            icon={
+              <span className="material-symbols-outlined">calendar_today</span>
+            }
           ></Input>
 
           <div className="flex flex-row gap-2 justify-end w-full col-span-2">

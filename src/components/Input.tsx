@@ -1,13 +1,29 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 export interface InputInterface {
   tipo: string;
   textoLabel: string;
   placeholder?: string;
   icon?: ReactNode;
+  mensajeErro: string;
+  establecerError: () => void;
+  onchange: () => void;
 }
 
-const Input = ({ tipo, placeholder, textoLabel, icon }: InputInterface) => {
+const Input = ({
+  tipo,
+  placeholder,
+  textoLabel,
+  icon,
+  mensajeError,
+  establecerError,
+  onchange,
+}: InputInterface) => {
+  const [error, setError] = useState(false);
+  const handleChange = (e) => {
+    onchange(e);
+  };
+  const handleBlur = (e) => {};
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-medium text-gray-700">{textoLabel}</label>
@@ -19,8 +35,11 @@ const Input = ({ tipo, placeholder, textoLabel, icon }: InputInterface) => {
           type={tipo}
           className="w-full border border-gray-300 rounded-md px-10 py-2 text-sm outline-none"
           placeholder={placeholder}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
+      {error && <span>{mensajeError}</span>}
     </div>
   );
 };
