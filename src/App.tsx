@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Diurno from "./components/Diurno";
+import Ausencias from "./components/Ausencias";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
           <Route path="vespertino"></Route>
           <Route path="perfil"></Route>
           <Route path="dias-solicitados"></Route>
-          <Route path="ausencias"></Route>
+          <Route path="ausencias" element={<Ausencias></Ausencias>}></Route>
         </Route>
       </Routes>{" "}
     </>
