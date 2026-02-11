@@ -138,6 +138,7 @@ const FormDias = () => {
             regex={/^(Diurno|Vespertino)$/}
             mensajeError="Seleccione un valor"
             tieneError={tieneError}
+            defaultValue={"Sin seleccionar"}
           ></InputSelect>
           <Input
             name="numHoras"
