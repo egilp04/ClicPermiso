@@ -1,5 +1,11 @@
+import Form from "./Form";
+
 const Perfil = () => {
-  return <div>mi perfil</div>;
+  return (
+    <div>
+      <Form></Form>
+    </div>
+  );
 };
 
 export default Perfil;
