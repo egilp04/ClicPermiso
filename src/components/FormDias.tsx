@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import InputSelect from "./InputSelect";
 import { getMonthText } from "../utils/Utils";
+import { supabase } from "../supabase/supabase";
 
 const FormDias = () => {
   const [dia, setDia] = useState({
@@ -34,13 +35,54 @@ const FormDias = () => {
     numHoras: true,
   });
 
-  const hadleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const enviarDatos = async () => {
+    try {
+      const { error: responseError } = await supabase
+        .from("DiaSolicitado")
+        .insert({
+          diaSolicitado: data.fecha,
+          telefono: data.telefono,
+          jornada: data.jornada,
+          turno: data.turno,
+          dias_solicitados: data.numDias,
+          horas_afectadas: data.numHoras,
+          id_profesor: "1737d096-47de-495b-a1af-eeb78e266150",
+        });
+      if (responseError) throw responseError;
+      resetData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const formRef = useRef<HTMLFormElement>(null);
+  const resetData = () => {
+    setData({
+      fecha: `${anio}-${mes}-${diaActual}`,
+      telefono: "000000000",
+      numHoras: 0,
+      numDias: 0,
+      jornada: "sin seleccionar",
+      turno: "sin seleccionar",
+      noRetribuido: false,
+    });
+    setError({
+      fecha: true,
+      telefono: true,
+      jornada: true,
+      turno: true,
+      numDias: true,
+      numHoras: true,
+    });
+
+    formRef.current?.reset();
+  };
+
+  const hadleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const hayErrores = Object.values(errores).some((error) => error === true);
     if (!hayErrores) {
-      alert(
-        `Solicitud guardada correctamente. Datos: \nFecha:${data.fecha} \nTelefono ${data.telefono} \nNumero de horas: ${data.numHoras} \nNumero de dias: ${data.numDias} \nJornada: ${data.jornada} \nTurno ${data.turno} `,
-      );
+      await enviarDatos();
+      alert(`Solicitud guardada correctamente.`);
     } else {
       alert(
         "Por favor, algunos campos tiene errores, corrige los errores antes de enviar.",
@@ -96,7 +138,11 @@ const FormDias = () => {
         </div>
       </div>
       <div>
-        <form className="grid grid-cols-2 p-4 gap-4" onSubmit={hadleSubmit}>
+        <form
+          className="grid grid-cols-2 p-4 gap-4"
+          onSubmit={hadleSubmit}
+          ref={formRef}
+        >
           <Input
             name="fecha"
             tipo="date"
@@ -173,37 +219,6 @@ const FormDias = () => {
               Estoy solicitando un día de permiso no retribuido
             </label>
           </div>
-          {/* <div className="col-span-2 flex flex-row gap-2">
-            <input type="checkbox" name="check2"></input>
-            <label htmlFor="check2">¿Causa sobrevenida? </label>
-          </div>
-          <div className="col-span-2 flex flex-col gap-2">
-            <label htmlFor="justificacion">
-              Justificacion de la causa sobrevenida
-            </label>
-            <textarea
-              name="justificacion"
-              className="col-span-2 border border-gray-400 rounded bg-gray-100"
-            ></textarea>
-          </div> */}
-          {/* <div className="col-span-2 flex flex-col gap-2">
-            <label
-              htmlFor="subirDoc"
-              className="text-sm font-medium text-gray-700"
-            >
-              Documento Justificativo en PDF
-            </label>
-            <div className="flex items-center gap-1">
-              <label
-                htmlFor="subirDoc"
-                className="px-2 py-1 border border-gray-300 rounded-md text-sm font-medium cursor-pointer hover:bg-gray-50 shadow-xs"
-              >
-                Seleccionar archivo
-              </label>
-              <span className="text-sm text-gray-400">nada seleccionado</span>
-              <input id="subirDoc" type="file" className="hidden" />
-            </div>
-          </div> */}
           <div className="w-full mt-4 col-span-2">
             <hr className="opacity-[.15]"></hr>
           </div>
@@ -212,6 +227,7 @@ const FormDias = () => {
               variant="secundario"
               children="Cancelar"
               type="button"
+              onClick={resetData}
             ></Button>
             <Button
               variant="primario"
