@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import InputSelect from "./InputSelect";
+import { supabase } from "../supabase/supabase";
+import { idProfesor } from "../utils/Utils";
 
 const Form = () => {
   const [data, setData] = useState({
@@ -10,7 +12,7 @@ const Form = () => {
     email: "",
     dni: "",
     estado: "Otros",
-    aniosServicio: 0,
+    ano_servicio: 0,
   });
   const [error, setError] = useState({
     nombre: false,
@@ -18,18 +20,62 @@ const Form = () => {
     email: false,
     dni: false,
     estado: false,
-    aniosServicio: false,
+    ano_servicio: false,
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const { data: responseDatos, error: responseError } = await supabase
+        .from("Profesor")
+        .select("*")
+        .eq("id_profesor", idProfesor);
+      if (responseError) throw responseError;
+      setData({
+        nombre: responseDatos[0].nombre || "",
+        apellidos: responseDatos[0].apellidos || "",
+        email: responseDatos[0].email || "",
+        dni: responseDatos[0].dni || "",
+        estado: responseDatos[0].rel_juridica || "",
+        ano_servicio: responseDatos[0].ano_servicio || 0,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const hadErrors = Object.values(error).some((value) => value == true);
     if (hadErrors) {
       alert("Hay errores, lo sentimos");
     } else {
-      alert(
-        `Nombre: ${data.nombre}, \nApellidos. ${data.apellidos}, \nDni: ${data.dni} \nEmail: ${data.email}  \nEstado civil: ${data.estado}  \nAñios de Servicio: ${data.aniosServicio}`,
-      );
+      await enviarDatos();
+      alert("Datos modificados correctamente");
+      await getData();
+    }
+  };
+
+  const enviarDatos = async () => {
+    try {
+      const { error: responseError } = await supabase
+        .from("Profesor")
+        .update({
+          nombre: data.nombre,
+          apellidos: data.apellidos,
+          email: data.email,
+          dni: data.dni,
+          rel_juridica: data.estado,
+          ano_servicio: data.ano_servicio,
+        })
+        .eq("id_profesor", idProfesor);
+
+      if (responseError) throw responseError;
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -42,15 +88,13 @@ const Form = () => {
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setData((prev) => {
-      const newData = {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-      return newData;
-    });
-  };
+    const { name, value } = e.target;
 
+    setData((prev) => ({
+      ...prev,
+      [name]: name === "ano_servicio" ? parseInt(value) || 0 : value,
+    }));
+  };
   return (
     <>
       <div className="flex flex-row w-full justify-between p-4">
@@ -76,6 +120,7 @@ const Form = () => {
             name="nombre"
             actualizarInfo={actualizarInfo}
             establecerError={establecerError}
+            value={data.nombre}
           ></Input>
           <Input
             tipo="text"
@@ -87,6 +132,7 @@ const Form = () => {
             actualizarInfo={actualizarInfo}
             establecerError={establecerError}
             regex={/^[A-Z][a-z]+(\s[A-Z][a-z]+)+$/}
+            value={data.apellidos}
           ></Input>
           <Input
             tipo="text"
@@ -98,6 +144,7 @@ const Form = () => {
             name="email"
             actualizarInfo={actualizarInfo}
             establecerError={establecerError}
+            value={data.email}
           ></Input>
           <Input
             tipo="text"
@@ -110,6 +157,7 @@ const Form = () => {
             name="dni"
             actualizarInfo={actualizarInfo}
             establecerError={establecerError}
+            value={data.dni}
           ></Input>
           <InputSelect
             options={["Soltero", "Casado", "Otros"]}
@@ -122,6 +170,7 @@ const Form = () => {
             actualizarInfo={actualizarInfo}
             establecerError={establecerError}
             mensajeError="Error en el estado, lo sentimo"
+            value={data.estado}
           ></InputSelect>
           <Input
             tipo="text"
@@ -131,9 +180,10 @@ const Form = () => {
             }
             mensajeError="Debe ser menor que 50 y mayor que 0"
             regex={/^(50|[0-4]?[0-9])$/}
-            name="aniosServicio"
+            name="ano_servicio"
             actualizarInfo={actualizarInfo}
             establecerError={establecerError}
+            value={data.ano_servicio}
           ></Input>
 
           <div className="flex flex-row gap-2 justify-end w-full col-span-2">
