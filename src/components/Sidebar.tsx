@@ -1,6 +1,9 @@
+import { useAuthStore } from "../store/AuthStore";
 import LinkSidebar from "./LinkSidebar";
 
 const Sidebar = () => {
+  const session = useAuthStore((state) => state.session);
+
   return (
     <div className="mt-10 flex  flex-col gap-4">
       <LinkSidebar
@@ -30,6 +33,13 @@ const Sidebar = () => {
         texto="Mis ausencias"
         direccion="ausencias"
       ></LinkSidebar>
+      {session && (
+        <LinkSidebar
+          texto="😁Dashboard"
+          direccion="dashboard"
+          icono
+        ></LinkSidebar>
+      )}
     </div>
   );
 };
