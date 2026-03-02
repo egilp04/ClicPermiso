@@ -1,13 +1,77 @@
-import type { ReactNode } from "react";
+import { useState, type InputHTMLAttributes, type ReactNode } from "react";
 
-export interface InputInterface {
+export interface InputInterface extends InputHTMLAttributes<HTMLInputElement> {
   tipo: string;
   textoLabel: string;
-  placeholder?: string;
   icon?: ReactNode;
+  actualizarInfo: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
+  regex?: RegExp;
+  tieneError: (nombre: string, error: boolean) => void;
+  mensajeError: string;
 }
 
-const Input = ({ tipo, placeholder, textoLabel, icon }: InputInterface) => {
+const Input = ({
+  actualizarInfo,
+  tipo,
+  textoLabel,
+  icon,
+  regex,
+  mensajeError,
+  tieneError,
+  ...props
+}: InputInterface) => {
+  const [error, setError] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    // setError(false);
+    actualizarInfo(e);
+  };
+
+  const handleBlur = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const value = e.target.value;
+    const nombre = e.target.name;
+
+    if (!value || value.trim() === "") {
+      setError(true);
+      tieneError(nombre, true);
+      return;
+    }
+
+    if (regex != null) {
+      const esValido = regex.test(value);
+      setError(!esValido);
+      tieneError(nombre, !esValido);
+    }
+
+    if (nombre === "fecha") {
+      const fechaSeleccionada = new Date(value);
+      if (isNaN(fechaSeleccionada.getTime())) {
+        setError(true);
+        tieneError(nombre, true);
+        return;
+      }
+
+      const actual = new Date();
+      actual.setHours(0, 0, 0, 0);
+      fechaSeleccionada.setHours(0, 0, 0, 0);
+
+      if (fechaSeleccionada <= actual) {
+        setError(true);
+        tieneError(nombre, true);
+        alert("La fecha debe ser posterior a hoy");
+      } else {
+        setError(false);
+        tieneError(nombre, false);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-medium text-gray-700">{textoLabel}</label>
@@ -17,10 +81,13 @@ const Input = ({ tipo, placeholder, textoLabel, icon }: InputInterface) => {
         </div>
         <input
           type={tipo}
-          className="w-full border border-gray-300 rounded-md px-10 py-2 text-sm outline-none"
-          placeholder={placeholder}
+          className={`w-full border rounded-md px-10 py-2 text-sm outline-none ${error ? "border-red-600-50" : "border-gray-500"}`}
+          {...props}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
+      {error && <span className="text-red-700">{mensajeError}</span>}
     </div>
   );
 };

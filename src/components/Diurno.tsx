@@ -1,5 +1,12 @@
+import FormDias from "./FormDias";
+
 const Diurno = () => {
-  return <div>ES DIURNO</div>;
+  const defaultValue = "Diurno";
+  return (
+    <div>
+      <FormDias defaultValue={defaultValue}></FormDias>
+    </div>
+  );
 };
 
 export default Diurno;

@@ -1,12 +1,50 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode, type SelectHTMLAttributes } from "react";
 
-export interface InputSelectInterface {
+export interface InputSelectInterface extends SelectHTMLAttributes<HTMLSelectElement> {
   textLabel: string;
   options: string[];
-  icon: ReactNode;
+  icon?: ReactNode;
+  regex?: RegExp;
+  mensajeError: string;
+  tieneError: (nombre: string, error: boolean) => void;
+  actualizarInfo: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
+  defaultValue?: string;
 }
 
-const InputSelect = ({ options, textLabel, icon }: InputSelectInterface) => {
+const InputSelect = ({
+  options,
+  textLabel,
+  icon,
+  regex,
+  mensajeError,
+  defaultValue,
+  actualizarInfo,
+  tieneError,
+  ...props
+}: InputSelectInterface) => {
+  const [error, setError] = useState(false);
+
+  const handleBlur = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const value = e.target.value;
+
+    if (regex != null)
+      if (!regex.test(value)) {
+        setError(true);
+        tieneError(e.target.name, true);
+      } else {
+        setError(false);
+        tieneError(e.target.name, false);
+      }
+  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    actualizarInfo(e);
+  };
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-medium text-gray-700" htmlFor="seleccion">
@@ -17,14 +55,18 @@ const InputSelect = ({ options, textLabel, icon }: InputSelectInterface) => {
           {icon}
         </div>
         <select
-          name="seleccion"
           className="w-full border border-gray-300 rounded-md px-10 py-2 text-sm outline-none"
+          {...props}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={defaultValue}
         >
           {options.map((option) => (
             <option value={option}>{option}</option>
           ))}
         </select>
       </div>
+      {error && <span className="text-red-500">{mensajeError}</span>}
     </div>
   );
 };
