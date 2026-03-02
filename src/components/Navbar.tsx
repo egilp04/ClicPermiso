@@ -2,12 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/AuthStore";
 import { supabase } from "../supabase/supabase";
 
-export interface NavbarInterface {
-  texto?: string;
-  //   button: ReactNode;
-}
-
-export const Navbar = ({ texto }: NavbarInterface) => {
+export const Navbar = () => {
   const session = useAuthStore((state) => state.session);
   const signOut = useAuthStore((state) => state.signOut);
   const user = useAuthStore((state) => state.user);
@@ -28,7 +23,7 @@ export const Navbar = ({ texto }: NavbarInterface) => {
         <div className="flex flex-row w-full justify-between pr-10 pl-10">
           <h2 className="font-bold">I.E.S Albarregas</h2>
           <div className="flex flex-row gap-10">
-            <label>{user?.email}</label>
+            <label>{user?.user_metadata?.nombre}</label>
             {session ? (
               <span
                 className="material-symbols-outlined cursor-pointer"
