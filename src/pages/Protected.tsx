@@ -6,7 +6,7 @@ const Protected = () => {
   const loading = useAuthStore((state) => state.loading);
 
   if (loading) return <div>Cargando autenticación...</div>;
-  if (!session) return <Navigate to="/login" replace />;
+  if (!session) return <Navigate to="/" replace />;
   return <Outlet />;
 };
 

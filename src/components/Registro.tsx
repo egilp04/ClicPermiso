@@ -31,8 +31,6 @@ const Registro = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const hayErorres = Object.values(errores).some((error) => error == true);
-    console.log(errores);
-    console.log("datos", datos);
     if (hayErorres) {
       alert("algunos campos tienen errores");
     } else {
@@ -44,7 +42,6 @@ const Registro = () => {
           .select("email")
           .eq("email", email);
         if (data && data?.length > 0) {
-          console.log("email ya registrado");
           alert("email ya registrado");
           return;
         }
@@ -68,7 +65,7 @@ const Registro = () => {
         formRef.current?.reset();
         navigate("/login");
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -82,7 +79,6 @@ const Registro = () => {
   ) => {
     const nombre = e.target.name;
     const valor = e.target.value;
-    console.log("valor de actualiza info registro", valor);
     setDatos({ ...datos, [nombre]: valor });
   };
 

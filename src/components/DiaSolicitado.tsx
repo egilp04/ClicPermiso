@@ -26,7 +26,7 @@ const DiaSolicitado = () => {
         if (error) throw error;
         setData(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getData();

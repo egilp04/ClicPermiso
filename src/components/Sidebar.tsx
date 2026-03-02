@@ -9,7 +9,7 @@ const Sidebar = () => {
       <LinkSidebar
         icono={<span className="material-symbols-outlined">event</span>}
         texto="Sol. dia diurno"
-        direccion=""
+        direccion="diurno"
       ></LinkSidebar>
       <LinkSidebar
         icono={<span className="material-symbols-outlined">event</span>}

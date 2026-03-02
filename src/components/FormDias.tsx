@@ -4,12 +4,15 @@ import Input from "./Input";
 import InputSelect from "./InputSelect";
 import { getMonthText } from "../utils/Utils";
 import { supabase } from "../supabase/supabase";
+import { useAuthStore } from "../store/AuthStore";
 
 interface FormDiasInteface {
   defaultValue?: string;
 }
 
 const FormDias = ({ defaultValue }: FormDiasInteface) => {
+  const user = useAuthStore((state) => state.user);
+
   const [dia, setDia] = useState({
     dia: new Date().getDate(),
     mes: getMonthText(new Date().getMonth() + 1),
@@ -26,7 +29,7 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
     numHoras: 0,
     numDias: 0,
     jornada: "sin seleccionar",
-    turno: "sin seleccionar",
+    turno: defaultValue ? defaultValue : "sin seleccionar",
     noRetribuido: false,
   });
 
@@ -34,7 +37,7 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
     fecha: true,
     telefono: true,
     jornada: true,
-    turno: true,
+    turno: false,
     numDias: true,
     numHoras: true,
   });
@@ -50,12 +53,12 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
           turno: data.turno,
           dias_solicitados: data.numDias,
           horas_afectadas: data.numHoras,
-          id_profesor: "1737d096-47de-495b-a1af-eeb78e266150",
+          id_profesor: user.id,
         });
       if (responseError) throw responseError;
       resetData();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   const formRef = useRef<HTMLFormElement>(null);
@@ -66,18 +69,17 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
       numHoras: 0,
       numDias: 0,
       jornada: "sin seleccionar",
-      turno: "sin seleccionar",
+      turno: defaultValue ? defaultValue : "sin seleccionar",
       noRetribuido: false,
     });
     setError({
       fecha: true,
       telefono: true,
       jornada: true,
-      turno: true,
+      turno: false,
       numDias: true,
       numHoras: true,
     });
-
     formRef.current?.reset();
   };
 
@@ -116,7 +118,6 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
   };
 
   const tieneError = (nombre: string, error: boolean) => {
-    console.log(nombre);
     setError((prev) => {
       return {
         ...prev,

@@ -43,7 +43,6 @@ const InputSelect = ({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    console.log("datos del input select", e.target.name, e.target.value);
     actualizarInfo(e);
   };
   return (

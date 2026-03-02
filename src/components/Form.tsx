@@ -47,7 +47,7 @@ const Form = () => {
         ano_servicio: responseDatos[0].ano_servicio || 0,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -50,7 +50,5 @@ export const validarFecha = (value: string): boolean => {
 
 export const validarTelef = (value: string) => {
   const regexTel = /^[6-9]\d{8}$/;
-  console.log(value);
-  console.log(regexTel.test(value.trim()));
   return regexTel.test(value.trim());
 };

@@ -12,6 +12,7 @@ import Perfil from "./components/Perfil";
 import Ausencias from "./components/Ausencias";
 import Vespertino from "./components/Vespertino";
 import DiaSolicitado from "./components/DiaSolicitado";
+import HomeComponent from "./components/HomeComponent";
 
 function App() {
   const setSession = useAuthStore((state) => state.setSession);
@@ -33,19 +34,23 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home></Home>}>
-          <Route index element={<Diurno></Diurno>}></Route>
-          <Route path="vespertino" element={<Vespertino></Vespertino>}></Route>
-          <Route
-            path="dias-solicitados"
-            element={<DiaSolicitado></DiaSolicitado>}
-          ></Route>
-          <Route path="ausencias" element={<Ausencias></Ausencias>}></Route>
+          <Route index element={<HomeComponent></HomeComponent>}></Route>
           <Route path="registrarse" element={<Registro></Registro>}></Route>
           <Route path="login" element={<Login></Login>}></Route>
           <Route element={<Protected></Protected>}>
+            <Route path="diurno" element={<Diurno></Diurno>}></Route>
             <Route path="dashboard" element={<Dashboard></Dashboard>} />
             <Route path="perfil" element={<Perfil></Perfil>}></Route>
-          </Route>{" "}
+            <Route
+              path="vespertino"
+              element={<Vespertino></Vespertino>}
+            ></Route>
+            <Route
+              path="dias-solicitados"
+              element={<DiaSolicitado></DiaSolicitado>}
+            ></Route>
+            <Route path="ausencias" element={<Ausencias></Ausencias>}></Route>
+          </Route>
         </Route>
       </Routes>
     </>

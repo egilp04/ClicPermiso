@@ -12,10 +12,8 @@ const Login = () => {
     const nombre = e.target.name;
     const valor = e.target.value;
     if (valor == null || valor.trim() == "") {
-      console.log("nombre con error", nombre);
       setErrores({ ...errores, [nombre]: true });
     } else {
-      console.log("nombre sin error", nombre);
       setErrores({ ...errores, [nombre]: false });
     }
   };
@@ -30,7 +28,6 @@ const Login = () => {
     e.preventDefault();
     const hayErorres = Object.values(errores).some((error) => error == true);
     if (hayErorres) {
-      console.log(errores);
       alert("algunos campos tienen errores");
     } else {
       try {
@@ -45,7 +42,7 @@ const Login = () => {
         formRef.current?.reset();
         navigate("/dashboard");
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };

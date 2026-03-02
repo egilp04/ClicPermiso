@@ -35,19 +35,41 @@ const Input = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const value = e.target.value;
-    if (value == null || value.trim() == "") {
+    const nombre = e.target.name;
+
+    if (!value || value.trim() === "") {
       setError(true);
-      tieneError(e.target.name, true);
+      tieneError(nombre, true);
+      return;
     }
 
-    if (regex != null)
-      if (!regex.test(value)) {
+    if (regex != null) {
+      const esValido = regex.test(value);
+      setError(!esValido);
+      tieneError(nombre, !esValido);
+    }
+
+    if (nombre === "fecha") {
+      const fechaSeleccionada = new Date(value);
+      if (isNaN(fechaSeleccionada.getTime())) {
         setError(true);
-        tieneError(e.target.name, true);
+        tieneError(nombre, true);
+        return;
+      }
+
+      const actual = new Date();
+      actual.setHours(0, 0, 0, 0);
+      fechaSeleccionada.setHours(0, 0, 0, 0);
+
+      if (fechaSeleccionada <= actual) {
+        setError(true);
+        tieneError(nombre, true);
+        alert("La fecha debe ser posterior a hoy");
       } else {
         setError(false);
-        tieneError(e.target.name, false);
+        tieneError(nombre, false);
       }
+    }
   };
 
   return (
