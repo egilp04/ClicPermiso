@@ -31,7 +31,7 @@ function App() {
         <Route path="/" element={<Home></Home>}>
           <Route index element={<Diurno></Diurno>}></Route>
           <Route path="vespertino"></Route>
-          <Route path="perfil"></Route>
+          <Route path="perfil" element={<Perfil></Perfil>}></Route>
           <Route path="dias-solicitados"></Route>
           <Route path="ausencias"></Route>
           <Route path="registrarse" element={<Registro></Registro>}></Route>
