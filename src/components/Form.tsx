@@ -34,6 +34,7 @@ const Form = () => {
         .select("*")
         .eq("id_profesor", idProfesor);
       if (responseError) throw responseError;
+      
       setData({
         nombre: responseDatos[0].nombre || "",
         apellidos: responseDatos[0].apellidos || "",
@@ -166,7 +167,7 @@ const Form = () => {
             name="estado"
             actualizarInfo={actualizarInfo}
             tieneError={establecerError}
-            mensajeError="Error en el estado, lo sentimo"
+            mensajeError="Error en el estado, lo sentimos"
             value={data.estado}
           ></InputSelect>
           <Input

@@ -35,7 +35,7 @@ const Sidebar = () => {
       ></LinkSidebar>
       {session && (
         <LinkSidebar
-          texto="😁Dashboard"
+          texto="😁 BIENVENID@ a la Dashboard"
           direccion="dashboard"
           icono
         ></LinkSidebar>

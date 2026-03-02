@@ -35,9 +35,13 @@ const Input = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const value = e.target.value;
+    if (value == null || value.trim() == "") {
+      setError(true);
+      tieneError(e.target.name, true);
+    }
+
     if (regex != null)
       if (!regex.test(value)) {
-        console.log(e.target.value, regex.test(value));
         setError(true);
         tieneError(e.target.name, true);
       } else {

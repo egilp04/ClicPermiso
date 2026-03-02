@@ -3,13 +3,14 @@ import { useState, type ReactNode, type SelectHTMLAttributes } from "react";
 export interface InputSelectInterface extends SelectHTMLAttributes<HTMLSelectElement> {
   textLabel: string;
   options: string[];
-  icon: ReactNode;
+  icon?: ReactNode;
   regex?: RegExp;
   mensajeError: string;
   tieneError: (nombre: string, error: boolean) => void;
   actualizarInfo: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
+  defaultValue?: string;
 }
 
 const InputSelect = ({
@@ -18,19 +19,21 @@ const InputSelect = ({
   icon,
   regex,
   mensajeError,
+  defaultValue,
   actualizarInfo,
   tieneError,
   ...props
 }: InputSelectInterface) => {
   const [error, setError] = useState(false);
+
   const handleBlur = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const value = e.target.value;
+
     if (regex != null)
       if (!regex.test(value)) {
         setError(true);
-        console.log(e.target.name);
         tieneError(e.target.name, true);
       } else {
         setError(false);
@@ -40,6 +43,7 @@ const InputSelect = ({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
+    console.log("datos del input select", e.target.name, e.target.value);
     actualizarInfo(e);
   };
   return (
@@ -56,6 +60,7 @@ const InputSelect = ({
           {...props}
           onBlur={handleBlur}
           onChange={handleChange}
+          value={defaultValue}
         >
           {options.map((option) => (
             <option value={option}>{option}</option>

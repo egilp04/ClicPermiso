@@ -1,9 +1,11 @@
 import FormDias from "./FormDias";
 
 const Vespertino = () => {
+  const defaultValue = "Vespertino";
+
   return (
     <div>
-      <FormDias></FormDias>
+      <FormDias defaultValue={defaultValue}></FormDias>
     </div>
   );
 };

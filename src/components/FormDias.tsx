@@ -5,7 +5,11 @@ import InputSelect from "./InputSelect";
 import { getMonthText } from "../utils/Utils";
 import { supabase } from "../supabase/supabase";
 
-const FormDias = () => {
+interface FormDiasInteface {
+  defaultValue?: string;
+}
+
+const FormDias = ({ defaultValue }: FormDiasInteface) => {
   const [dia, setDia] = useState({
     dia: new Date().getDate(),
     mes: getMonthText(new Date().getMonth() + 1),
@@ -150,7 +154,7 @@ const FormDias = () => {
             icon={
               <span className="material-symbols-outlined">calendar_today</span>
             }
-            onChange={actualizarInfo}
+            actualizarInfo={actualizarInfo}
             regex={/^\d{4}-\d{2}-\d{2}$/}
             tieneError={tieneError}
             mensajeError="Día válido, por favor"
@@ -160,7 +164,7 @@ const FormDias = () => {
             tipo="text"
             textoLabel="Número de Teléfono"
             icon={<span className="material-symbols-outlined">call</span>}
-            onChange={actualizarInfo}
+            actualizarInfo={actualizarInfo}
             regex={/^[6-9][0-9]{8}$/}
             tieneError={tieneError}
             mensajeError="Número de teléfono de 9 dígitos, que empiecen or 6,7,8,9"
@@ -170,7 +174,7 @@ const FormDias = () => {
             name="jornada"
             options={["Sin seleccionar", "Parcial", "Completa"]}
             icon={<span className="material-symbols-outlined">history_2</span>}
-            onChange={actualizarInfo}
+            actualizarInfo={actualizarInfo}
             regex={/^(Parcial|Completa)$/}
             mensajeError="Seleccione un valor"
             tieneError={tieneError}
@@ -180,11 +184,11 @@ const FormDias = () => {
             options={["Sin seleccionar", "Diurno", "Vespertino"]}
             icon={<span className="material-symbols-outlined">sunny</span>}
             name="turno"
-            onChange={actualizarInfo}
+            actualizarInfo={actualizarInfo}
             regex={/^(Diurno|Vespertino)$/}
             mensajeError="Seleccione un valor"
             tieneError={tieneError}
-            defaultValue={"Sin seleccionar"}
+            defaultValue={defaultValue}
           ></InputSelect>
           <Input
             name="numHoras"
@@ -193,7 +197,7 @@ const FormDias = () => {
             icon={
               <span className="material-symbols-outlined">hourglass_empty</span>
             }
-            onChange={actualizarInfo}
+            actualizarInfo={actualizarInfo}
             regex={/^[1-8]{1}$/}
             tieneError={tieneError}
             mensajeError="De 1 a 8 dias"
@@ -203,7 +207,7 @@ const FormDias = () => {
             tipo="number"
             textoLabel="Núm de días de permisos solicitados en el centro"
             icon={<span className="material-symbols-outlined">table_rows</span>}
-            onChange={actualizarInfo}
+            actualizarInfo={actualizarInfo}
             regex={/^[1-8]{1}$/}
             tieneError={tieneError}
             mensajeError="De 1 a 8 dias"

@@ -1,9 +1,10 @@
 import FormDias from "./FormDias";
 
 const Diurno = () => {
+  const defaultValue = "Diurno";
   return (
     <div>
-      <FormDias></FormDias>
+      <FormDias defaultValue={defaultValue}></FormDias>
     </div>
   );
 };
