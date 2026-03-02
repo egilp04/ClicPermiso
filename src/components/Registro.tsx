@@ -65,7 +65,7 @@ const Registro = () => {
           type="text"
           onChange={actualizarDatos}
           onBlur={manejarErrores}
-          className="border border-amber-700"
+          className="border border-amber-100"
           name="email"
         ></input>
         <label>Contraseña: </label>
@@ -75,7 +75,7 @@ const Registro = () => {
           type="text"
           onChange={actualizarDatos}
           onBlur={manejarErrores}
-          className="border border-amber-700"
+          className="border border-amber-100"
         ></input>
         <button type="submit" className="bg-purple-300">
           Registrarse

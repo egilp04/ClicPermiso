@@ -14,7 +14,9 @@ const Dashboard = () => {
     <div>
       <h1>Bienvenido al Área Privada 🥳</h1>
       <p>Solo puedes ver esto si estás logueado.</p>
-      <button onClick={handleLogout}>Cerrar Sesión</button>
+      <button className="p-2 bg-red-600 cursor-pointer" onClick={handleLogout}>
+        Cerrar Sesión
+      </button>
     </div>
   );
 };

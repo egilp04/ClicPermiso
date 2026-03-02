@@ -31,7 +31,7 @@ export const Navbar = ({ texto }: NavbarInterface) => {
             <label>{user?.email}</label>
             {session ? (
               <span
-                className="material-symbols-outlined"
+                className="material-symbols-outlined cursor-pointer"
                 onClick={handleLogout}
               >
                 exit_to_app
@@ -41,14 +41,14 @@ export const Navbar = ({ texto }: NavbarInterface) => {
                 <button
                   type="button"
                   onClick={() => navigate("login")}
-                  className="bg-purple-300"
+                  className="bg-purple-300 cursor-pointer"
                 >
                   Login
                 </button>
                 <button
                   type="button"
                   onClick={() => navigate("registrarse")}
-                  className="bg-purple-300"
+                  className="bg-purple-300 cursor-pointer"
                 >
                   Registrarse
                 </button>
