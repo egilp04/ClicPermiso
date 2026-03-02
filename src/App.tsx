@@ -35,7 +35,6 @@ function App() {
         <Route path="/" element={<Home></Home>}>
           <Route index element={<Diurno></Diurno>}></Route>
           <Route path="vespertino" element={<Vespertino></Vespertino>}></Route>
-          <Route path="perfil" element={<Perfil></Perfil>}></Route>
           <Route
             path="dias-solicitados"
             element={<DiaSolicitado></DiaSolicitado>}
@@ -45,6 +44,7 @@ function App() {
           <Route path="login" element={<Login></Login>}></Route>
           <Route element={<Protected></Protected>}>
             <Route path="dashboard" element={<Dashboard></Dashboard>} />
+            <Route path="perfil" element={<Perfil></Perfil>}></Route>
           </Route>{" "}
         </Route>
       </Routes>

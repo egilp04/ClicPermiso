@@ -3,9 +3,11 @@ import Button from "./Button";
 import Input from "./Input";
 import InputSelect from "./InputSelect";
 import { supabase } from "../supabase/supabase";
-import { idProfesor } from "../utils/Utils";
+import { useAuthStore } from "../store/AuthStore";
 
 const Form = () => {
+  const user = useAuthStore((state) => state.user);
+
   const [data, setData] = useState({
     nombre: "",
     apellidos: "",
@@ -32,9 +34,10 @@ const Form = () => {
       const { data: responseDatos, error: responseError } = await supabase
         .from("Profesor")
         .select("*")
-        .eq("id_profesor", idProfesor);
+        .eq("id_profesor", user.id);
+
       if (responseError) throw responseError;
-      
+
       setData({
         nombre: responseDatos[0].nombre || "",
         apellidos: responseDatos[0].apellidos || "",
@@ -72,7 +75,7 @@ const Form = () => {
           rel_juridica: data.estado,
           ano_servicio: data.ano_servicio,
         })
-        .eq("id_profesor", idProfesor);
+        .eq("id_profesor", user.id);
 
       if (responseError) throw responseError;
     } catch (error) {
