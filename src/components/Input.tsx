@@ -1,11 +1,10 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from "react";
 
 export interface InputInterface extends InputHTMLAttributes<HTMLInputElement> {
-export interface InputInterface extends InputHTMLAttributes<HTMLInputElement> {
   tipo: string;
   textoLabel: string;
   icon?: ReactNode;
-  onChange: (
+  actualizarInfo: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
   regex?: RegExp;
@@ -14,7 +13,7 @@ export interface InputInterface extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({
-  onChange,
+  actualizarInfo,
   tipo,
   textoLabel,
   icon,
@@ -28,8 +27,8 @@ const Input = ({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    setError(false);
-    onChange(e);
+    // setError(false);
+    actualizarInfo(e);
   };
 
   const handleBlur = (

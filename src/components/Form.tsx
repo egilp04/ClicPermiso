@@ -84,12 +84,9 @@ const Form = () => {
   };
 
   const actualizarInfo = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-
     setData((prev) => ({
       ...prev,
       [name]: name === "ano_servicio" ? parseInt(value) || 0 : value,
@@ -119,7 +116,7 @@ const Form = () => {
             regex={/^[A-Z][a-z]+(\s[A-Z][a-z]+)*$/}
             name="nombre"
             actualizarInfo={actualizarInfo}
-            establecerError={establecerError}
+            tieneError={establecerError}
             value={data.nombre}
           ></Input>
           <Input
@@ -130,7 +127,7 @@ const Form = () => {
             placeholder="Apellidos"
             name="apellidos"
             actualizarInfo={actualizarInfo}
-            establecerError={establecerError}
+            tieneError={establecerError}
             regex={/^[A-Z][a-z]+(\s[A-Z][a-z]+)+$/}
             value={data.apellidos}
           ></Input>
@@ -143,7 +140,7 @@ const Form = () => {
             placeholder="ejemplo@gmail.com"
             name="email"
             actualizarInfo={actualizarInfo}
-            establecerError={establecerError}
+            tieneError={establecerError}
             value={data.email}
           ></Input>
           <Input
@@ -156,7 +153,7 @@ const Form = () => {
             regex={/^\d{8}[A-Z]$/}
             name="dni"
             actualizarInfo={actualizarInfo}
-            establecerError={establecerError}
+            tieneError={establecerError}
             value={data.dni}
           ></Input>
           <InputSelect
@@ -168,7 +165,7 @@ const Form = () => {
             regex={/^(Soltero|Casado|Otros)$/}
             name="estado"
             actualizarInfo={actualizarInfo}
-            establecerError={establecerError}
+            tieneError={establecerError}
             mensajeError="Error en el estado, lo sentimo"
             value={data.estado}
           ></InputSelect>
@@ -182,13 +179,13 @@ const Form = () => {
             regex={/^(50|[0-4]?[0-9])$/}
             name="ano_servicio"
             actualizarInfo={actualizarInfo}
-            establecerError={establecerError}
+            tieneError={establecerError}
             value={data.ano_servicio}
           ></Input>
 
           <div className="flex flex-row gap-2 justify-end w-full col-span-2">
-            <Button tipo="secundario" children="Cancelar"></Button>
-            <Button tipo="primario" children="Guardar solicitud"></Button>
+            <Button variant="secundario" children="Cancelar"></Button>
+            <Button variant="primario" children="Guardar solicitud"></Button>
           </div>
         </form>
       </div>

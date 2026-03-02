@@ -7,7 +7,7 @@ export interface InputSelectInterface extends SelectHTMLAttributes<HTMLSelectEle
   regex?: RegExp;
   mensajeError: string;
   tieneError: (nombre: string, error: boolean) => void;
-  onChange: (
+  actualizarInfo: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
 }
@@ -18,7 +18,7 @@ const InputSelect = ({
   icon,
   regex,
   mensajeError,
-  onChange,
+  actualizarInfo,
   tieneError,
   ...props
 }: InputSelectInterface) => {
@@ -40,7 +40,7 @@ const InputSelect = ({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    onChange(e);
+    actualizarInfo(e);
   };
   return (
     <div className="flex flex-col gap-2 w-full">
