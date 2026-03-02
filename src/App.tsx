@@ -8,6 +8,7 @@ import Protected from "./pages/Protected";
 import Dashboard from "./components/Dashboard";
 import Registro from "./components/Registro";
 import Login from "./components/Login";
+import Perfil from "./components/Perfil";
 
 function App() {
   const setSession = useAuthStore((state) => state.setSession);
