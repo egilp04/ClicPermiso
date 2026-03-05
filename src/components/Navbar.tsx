@@ -4,14 +4,14 @@ import { supabase } from "../supabase/supabase";
 
 export const Navbar = () => {
   const session = useAuthStore((state) => state.session);
-  const signOut = useAuthStore((state) => state.signOut);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
   const user = useAuthStore((state) => state.user);
 
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    signOut();
+    clearAuth();
   };
 
   return (

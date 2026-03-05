@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [datos, setDatos] = useState({ email: "", pass: "" });
   const [errores, setErrores] = useState({ email: true, pass: true });
+  const [errorLogin, setErrorLogin] = useState(false);
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -39,10 +40,12 @@ const Login = () => {
         });
 
         if (error) throw error;
+        setErrorLogin(false);
         formRef.current?.reset();
         navigate("/dashboard");
       } catch (error) {
         console.error(error);
+        setErrorLogin(true);
       }
     }
   };
@@ -73,6 +76,11 @@ const Login = () => {
           Entrar
         </button>
       </form>
+      {errorLogin && (
+        <span className="text-red-600">
+          Email y contraseña no coinciden, revise los campos
+        </span>
+      )}
     </div>
   );
 };
