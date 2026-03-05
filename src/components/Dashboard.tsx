@@ -2,12 +2,12 @@ import { useAuthStore } from "../store/AuthStore";
 import { supabase } from "../supabase/supabase";
 
 const Dashboard = () => {
-  const clearOut = useAuthStore((state) => state.clearOut);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
   const user = useAuthStore((state) => state.user);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    clearOut();
+    clearAuth();
   };
 
   return (
