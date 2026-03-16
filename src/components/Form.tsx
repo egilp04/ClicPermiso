@@ -161,12 +161,12 @@ const Form = () => {
             value={data.dni}
           ></Input>
           <InputSelect
-            options={["Soltero", "Casado", "Otros"]}
+            options={["Indefinido", "Temporal", "Otro"]}
             textLabel="Relacion juridica"
             icon={
               <span className="material-symbols-outlined">card_travel</span>
             }
-            regex={/^(Soltero|Casado|Otros)$/}
+            regex={/^(Indefinido|Temporal|Otros)$/}
             name="estado"
             actualizarInfo={actualizarInfo}
             tieneError={establecerError}
