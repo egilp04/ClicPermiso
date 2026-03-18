@@ -23,27 +23,29 @@ export const Navbar = () => {
         <div className="flex flex-row w-full justify-between pr-10 pl-10">
           <h2 className="font-bold">I.E.S Albarregas</h2>
           <div className="flex flex-row gap-10">
-            <label>{user?.user_metadata?.nombre}</label>
             {session ? (
-              <span
-                className="material-symbols-outlined cursor-pointer"
-                onClick={handleLogout}
-              >
-                exit_to_app
-              </span>
+              <>
+                <label>Hola, {user?.user_metadata?.email}</label>{" "}
+                <span
+                  className="material-symbols-outlined cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  exit_to_app
+                </span>
+              </>
             ) : (
               <div className="flex flex-row gap-2">
                 <button
                   type="button"
                   onClick={() => navigate("login")}
-                  className="bg-purple-300 cursor-pointer"
+                  className="bg-blue-300 cursor-pointer p-2 rounded-sm"
                 >
                   Login
                 </button>
                 <button
                   type="button"
                   onClick={() => navigate("registrarse")}
-                  className="bg-purple-300 cursor-pointer"
+                  className="bg-blue-300 cursor-pointer p-2 rounded-sm"
                 >
                   Registrarse
                 </button>

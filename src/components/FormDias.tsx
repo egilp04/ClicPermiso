@@ -5,6 +5,7 @@ import InputSelect from "./InputSelect";
 import { getMonthText } from "../utils/Utils";
 import { supabase } from "../supabase/supabase";
 import { useAuthStore } from "../store/AuthStore";
+import { useNavigate } from "react-router-dom";
 
 interface FormDiasInteface {
   defaultValue?: string;
@@ -125,6 +126,8 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
       };
     });
   };
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex flex-row w-full justify-between p-4">
@@ -137,9 +140,12 @@ const FormDias = ({ defaultValue }: FormDiasInteface) => {
             </strong>
           </h1>
         </div>
-        <div className="flex flex-row gap-4 ">
-          <span className="material-symbols-outlined"> keyboard_return</span>
-          <label>volver</label>
+        <div
+          className="flex flex-row gap-4 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          <span className="material-symbols-outlined ">keyboard_return</span>
+          <label className="cursor-pointer">volver</label>
         </div>
       </div>
       <div>

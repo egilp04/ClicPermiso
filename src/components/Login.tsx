@@ -51,16 +51,20 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>LOGIN</h1>
-      <form onSubmit={handleSumbit} ref={formRef}>
+    <div className="flex flex-col justify-center items-center gap-10">
+      <h1 className="mt-2 text-2xl">LOGIN</h1>
+      <form
+        onSubmit={handleSumbit}
+        ref={formRef}
+        className="flex flex-col gap-2"
+      >
         <label>Email: </label>
         <input
           placeholder="introduce tu email"
           type="text"
           onChange={actualizarDatos}
           onBlur={manejarErrores}
-          className="border border-amber-100"
+          className="border border-blue-100 rounded-sm"
           name="email"
         ></input>
         <label>Contraseña: </label>
@@ -70,9 +74,12 @@ const Login = () => {
           type="password"
           onChange={actualizarDatos}
           onBlur={manejarErrores}
-          className="border border-amber-100"
+          className="border border-blue-100 rounded-sm"
         ></input>
-        <button type="submit" className="bg-purple-300">
+        <button
+          type="submit"
+          className="bg-blue-300 cursor-pointer p-2 rounded-sm"
+        >
           Entrar
         </button>
       </form>

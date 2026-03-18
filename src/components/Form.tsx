@@ -4,6 +4,7 @@ import Input from "./Input";
 import InputSelect from "./InputSelect";
 import { supabase } from "../supabase/supabase";
 import { useAuthStore } from "../store/AuthStore";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const user = useAuthStore((state) => state.user);
@@ -96,6 +97,7 @@ const Form = () => {
       [name]: name === "ano_servicio" ? parseInt(value) || 0 : value,
     }));
   };
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex flex-row w-full justify-between p-4">
@@ -104,9 +106,12 @@ const Form = () => {
             <strong>Modificar mi perfil: </strong>
           </h1>
         </div>
-        <div className="flex flex-row gap-4 ">
-          <span className="material-symbols-outlined"> keyboard_return</span>
-          <label>volver</label>
+        <div
+          className="flex flex-row gap-4 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          <span className="material-symbols-outlined ">keyboard_return</span>
+          <label className="cursor-pointer">volver</label>
         </div>
       </div>
       <div>

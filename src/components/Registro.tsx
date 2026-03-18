@@ -32,6 +32,8 @@ const Registro = () => {
     e.preventDefault();
     const hayErorres = Object.values(errores).some((error) => error == true);
     if (hayErorres) {
+      console.log(errores);
+
       alert("algunos campos tienen errores");
     } else {
       try {
@@ -83,9 +85,13 @@ const Registro = () => {
   };
 
   return (
-    <div>
-      <h1>Registrarse</h1>
-      <form onSubmit={handleSubmit} ref={formRef}>
+    <div className="flex flex-col justify-center items-center gap-10">
+      <h1 className="mt-2 text-2xl">Registrarse</h1>
+      <form
+        onSubmit={handleSubmit}
+        ref={formRef}
+        className="flex flex-col justify-center items-center gap-2"
+      >
         <Input
           placeholder="Introduce tu nombre"
           tipo="text"
@@ -117,9 +123,9 @@ const Registro = () => {
           mensajeError="Formato dni incorrecto, ocho numeros y una letra"
         ></Input>
         <InputSelect
-          options={["Sin seleccionar", "Soltero", "Casado", "Otros"]}
+          options={["Sin seleccionar", "Indefinido", "Temporal", "Otros"]}
           textLabel="Relacion juridica"
-          regex={/^(Soltero|Casado|Otros)$/}
+          regex={/^(Indefinido|Temporal|Otros)$/}
           name="rel_juridica"
           actualizarInfo={actualizarInfo}
           tieneError={tieneError}
@@ -151,12 +157,16 @@ const Registro = () => {
           tipo="text"
           actualizarInfo={actualizarInfo}
           tieneError={tieneError}
+          type="password"
           mensajeError="Contraseña inválida, verifique el formato: mayúsculas, minúsculas, carácter especial: @, !, %..."
           regex={
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
           }
         ></Input>
-        <button type="submit" className="bg-purple-300">
+        <button
+          type="submit"
+          className="bg-blue-300 cursor-pointer p-2 rounded-sm"
+        >
           Registrarse
         </button>
       </form>

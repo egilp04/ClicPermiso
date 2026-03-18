@@ -9,7 +9,7 @@ const Button = ({
   children,
   ...props
 }: ButtonInterface) => {
-  const base = "rounded py-1 px-1";
+  const base = "rounded p-2";
 
   const tipoClase = {
     primario: "bg-blue-600 text-white",
